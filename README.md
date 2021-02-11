@@ -1,4 +1,4 @@
-# Setup
+# Tetcore UI - Setup
 
 **Requires Node v11 and Python 2.7**
 
