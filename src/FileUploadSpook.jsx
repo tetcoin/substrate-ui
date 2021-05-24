@@ -1,10 +1,10 @@
 import React from 'react';
 import {Button, Label} from 'semantic-ui-react';
-import {Bond} from 'oo7';
-import {ReactiveComponent} from 'oo7-react';
+import {Spook} from 'spycraft';
+import {ReactiveComponent} from 'spycraft-react';
 import * as uuid from 'uuid';
 
-export class FileUploadBond extends ReactiveComponent {
+export class FileUploadSpook extends ReactiveComponent {
 	constructor () {
 		super(['content', 'disabled']);
 
@@ -21,7 +21,7 @@ export class FileUploadBond extends ReactiveComponent {
 			var fileReader = new FileReader()
 			fileReader.onloadend = e => {
 				let fileContents = new Uint8Array(e.target.result)
-				this.props.bond.trigger(fileContents)
+				this.props.spook.trigger(fileContents)
 				this.setState({length: fileContents.length})
 			}
 			fileReader.readAsArrayBuffer(file)

@@ -1,5 +1,5 @@
-import { ReactiveComponent } from 'oo7-react';
-import { pretty } from 'oo7-substrate';
+import { ReactiveComponent } from 'spycraft-react';
+import { pretty } from 'spycraft-tetcore';
 import { Identicon } from './Identicon';
 
 export class ValidatorBalances extends ReactiveComponent {

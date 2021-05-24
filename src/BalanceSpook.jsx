@@ -1,8 +1,8 @@
 const React = require('react')
 const {Dropdown} = require('semantic-ui-react')
-const {InputBond} = require('./InputBond')
-const {Balance} = require('oo7-substrate')
-const {denominations, denominationInfo} = require('oo7-substrate').denominationInfo
+const {InputSpook} = require('./InputSpook')
+const {Balance} = require('spycraft-tetcore')
+const {denominations, denominationInfo} = require('spycraft-tetcore').denominationInfo
 
 function formatValueNoDenom(n) {
 	return `${n.units.toString().replace(/(\d)(?=(\d{3})+$)/g, '$1,')}${n.decimals ? '.' + n.decimals : ''}`
@@ -41,7 +41,7 @@ function interpretRender(s) {
 	}
 }
 
-class BalanceBond extends InputBond {
+class BalanceSpook extends InputSpook {
 	constructor() {
 		super()
 	}
@@ -92,7 +92,7 @@ function defaultDenom() {
 	return denominations.indexOf(denominationInfo.primary)
 }
 
-BalanceBond.defaultProps = {
+BalanceSpook.defaultProps = {
 	placeholder: '0',
 	defaultValue: '',
 	validator: (u, s) => {
@@ -121,4 +121,4 @@ BalanceBond.defaultProps = {
 	}
 }
 
-module.exports = { BalanceBond }
+module.exports = { BalanceSpook }

@@ -1,7 +1,7 @@
 const React = require('react');
-const {Bond} = require('oo7');
-const {ReactiveComponent} = require('oo7-react');
-const {post} = require('oo7-substrate');
+const {Spook} = require('spycraft');
+const {ReactiveComponent} = require('spycraft-react');
+const {post} = require('spycraft-tetcore');
 const {Button} = require('semantic-ui-react');
 const {TransactionProgressLabel, styleStatus} = require('./TransactionProgressLabel');
 
@@ -72,7 +72,7 @@ class TransactButton extends ReactiveComponent {
 			statusText={this.props.statusText}
 			statusIcon={this.props.statusIcon}
 			colorPolicy={this.props.colorPolicy}
-			disabled={Bond.all([this.props.tx]).ready().map(txReady => !txReady || this.state.disabled || !this.state.enabled)}
+			disabled={Spook.all([this.props.tx]).ready().map(txReady => !txReady || this.state.disabled || !this.state.enabled)}
 		/>
 	}
 }

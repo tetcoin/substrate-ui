@@ -1,13 +1,13 @@
 const React = require('react');
-const {Bond} = require('oo7');
-const {ReactiveComponent, Rimg} = require('oo7-react');
+const {Spook} = require('spycraft');
+const {ReactiveComponent, Rimg} = require('spycraft-react');
 const {Identicon} = require('./Identicon');
 const {Label, Input} = require('semantic-ui-react');
-const {InputBond} = require('./InputBond');
+const {InputSpook} = require('./InputSpook');
 const nacl = require('tweetnacl');
-const {stringToSeed, hexToBytes, bytesToHex, runtime, secretStore, addressBook, ss58Decode, AccountId} = require('oo7-substrate');
+const {stringToSeed, hexToBytes, bytesToHex, runtime, secretStore, addressBook, ss58Decode, AccountId} = require('spycraft-tetcore');
 
-class AccountIdBond extends InputBond {
+class AccountIdSpook extends InputSpook {
 	constructor () { super() }
 	makeIcon (p) {
 		return p ? 'left' : this.state.ok
@@ -25,10 +25,10 @@ class AccountIdBond extends InputBond {
 			position: 'absolute',
 			zIndex: this.props.labelZIndex || 10
 		};
-		return InputBond.prototype.render.call(this);
+		return InputSpook.prototype.render.call(this);
 	}
 }
-AccountIdBond.defaultProps = {
+AccountIdSpook.defaultProps = {
 	placeholder: 'Name or address',
 	validator: a => {
 		let y = secretStore().find(a);
@@ -52,11 +52,11 @@ AccountIdBond.defaultProps = {
 	defaultValue: ''
 };
 
-class SignerBond extends AccountIdBond {
+class SignerSpook extends AccountIdSpook {
 	constructor () { super() }
 }
 
-SignerBond.defaultProps = {
+SignerSpook.defaultProps = {
 	placeholder: 'Name or address',
 	validator: a => {
 		let y = secretStore().find(a);
@@ -74,4 +74,4 @@ SignerBond.defaultProps = {
 	defaultValue: ''
 };
 
-module.exports = { AccountIdBond, SignerBond };
+module.exports = { AccountIdSpook, SignerSpook };

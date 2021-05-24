@@ -1,7 +1,7 @@
 import React from 'react';
 import {List, Icon, Button, Label, Popup} from 'semantic-ui-react';
-import {ReactiveComponent} from 'oo7-react';
-import {runtime, secretStore} from 'oo7-substrate';
+import {ReactiveComponent} from 'spycraft-react';
+import {runtime, secretStore} from 'spycraft-tetcore';
 import {Identicon} from './Identicon';
 
 export class SecretItem extends ReactiveComponent {

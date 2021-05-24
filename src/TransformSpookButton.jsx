@@ -1,13 +1,13 @@
 import React from 'react';
 import {Button} from 'semantic-ui-react';
-import {Bond} from 'oo7';
-import {ReactiveComponent} from 'oo7-react';
+import {Spook} from 'spycraft';
+import {ReactiveComponent} from 'spycraft-react';
 
-export class TransformBondButton extends ReactiveComponent {
+export class TransformSpookButton extends ReactiveComponent {
 	constructor () {
 		super (['content', 'disabled', 'icon'])
 
-		this.state = { bond: null, result: undefined }
+		this.state = { spook: null, result: undefined }
 	}
 
 	clicked () {
@@ -16,34 +16,34 @@ export class TransformBondButton extends ReactiveComponent {
 			return
 		}
 
-		let bond = this.props.bond
-			? this.props.bond()
+		let spook = this.props.spook
+			? this.props.spook()
 			: this.props.transform
-			? this.argsBond.latched().map(args => this.props.transform(...args))
+			? this.argsSpook.latched().map(args => this.props.transform(...args))
 			: undefined
-		if (bond) {
-			this.setState({ bond })
+		if (spook) {
+			this.setState({ spook })
 			let that = this
-			bond.map(result => that.setState({ result }))
-			bond.then(result => that.setState({ bond: null, result: that.props.immediate ? undefined : result }))
+			spook.map(result => that.setState({ result }))
+			spook.then(result => that.setState({ spook: null, result: that.props.immediate ? undefined : result }))
 		}
 	}
 
 	render () {
-		this.argsBond = Bond.all(this.props.args);
-		return <TransformBondButtonAux
+		this.argsSpook = Spook.all(this.props.args);
+		return <TransformSpookButtonAux
 			content={this.state.content}
 			onClick={() => this.clicked()}
-			disabled={this.state.disabled || !!this.state.bond}
-			forceEnabled={this.state.result && !this.state.bond}
+			disabled={this.state.disabled || !!this.state.spook}
+			forceEnabled={this.state.result && !this.state.spook}
 			icon={this.state.result ? this.state.result.icon ? this.state.result.icon : 'tick' : this.state.icon }
 			label={this.state.result ? this.state.result.label ? this.state.result.label : 'Done' : this.state.label }
-			ready={this.argsBond.ready()}
+			ready={this.argsSpook.ready()}
 		/>
 	}
 }
 
-class TransformBondButtonAux extends ReactiveComponent {
+class TransformSpookButtonAux extends ReactiveComponent {
 	constructor () {
 		super(['ready'])
 	}

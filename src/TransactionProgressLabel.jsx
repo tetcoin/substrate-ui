@@ -1,5 +1,5 @@
 const React = require('react');
-const {ReactiveComponent} = require('oo7-react');
+const {ReactiveComponent} = require('spycraft-react');
 const {Label, Icon} = require('semantic-ui-react');
 
 function styleStatus (value) {

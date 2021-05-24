@@ -2,20 +2,20 @@ const jdenticon = require('jdenticon');
 import React from 'react';
 require('semantic-ui-css/semantic.min.css');
 import {Icon, Accordion, List, Checkbox, Label, Header, Segment, Divider, Button} from 'semantic-ui-react';
-import {Bond, TransformBond} from 'oo7';
-import {ReactiveComponent, If, Rspan} from 'oo7-react';
+import {Spook, TransformSpook} from 'spycraft';
+import {ReactiveComponent, If, Rspan} from 'spycraft-react';
 import {calls, runtime, chain, system, runtimeUp, ss58Decode, ss58Encode, pretty,
-	addressBook, secretStore, metadata, nodeService, bytesToHex, hexToBytes, AccountId} from 'oo7-substrate';
+	addressBook, secretStore, metadata, nodeService, bytesToHex, hexToBytes, AccountId} from 'spycraft-tetcore';
 import {Identicon} from './Identicon';
-import {AccountIdBond, SignerBond} from './AccountIdBond.jsx';
-import {BalanceBond} from './BalanceBond.jsx';
-import {InputBond} from './InputBond.jsx';
+import {AccountIdSpook, SignerSpook} from './AccountIdSpook.jsx';
+import {BalanceSpook} from './BalanceSpook.jsx';
+import {InputSpook} from './InputSpook.jsx';
 import {TransactButton} from './TransactButton.jsx';
-import {FileUploadBond} from './FileUploadBond.jsx';
+import {FileUploadSpook} from './FileUploadSpook.jsx';
 import {StakingStatusLabel} from './StakingStatusLabel';
 import {WalletList, SecretItem} from './WalletList';
 import {AddressBookList} from './AddressBookList';
-import {TransformBondButton} from './TransformBondButton';
+import {TransformSpookButton} from './TransformSpookButton';
 import {Pretty} from './Pretty';
 
 export class App extends ReactiveComponent {
@@ -65,23 +65,23 @@ export class App extends ReactiveComponent {
 	}
 }
 
-class AccountIdsBond extends ReactiveComponent {
+class AccountIdsSpook extends ReactiveComponent {
 	constructor () {
 		super(['accounts'])
 	}
 	readyRender () {
-		return <AccountIdsBondInner accounts={this.state.accounts} bond={this.props.bond}/>
+		return <AccountIdsSpookInner accounts={this.state.accounts} spook={this.props.spook}/>
 	}
 }
 
-class AccountIdsBondInner extends React.Component {
+class AccountIdsSpookInner extends React.Component {
 	constructor () {
 		super()
 		this.state = {selected: {}}
 	}
 	componentDidMount () {
-		if (this.props.bond) {
-			this.tieKey = this.props.bond.tie(v => {
+		if (this.props.spook) {
+			this.tieKey = this.props.spook.tie(v => {
 				let selected = {}
 				v.forEach(k => selected[bytesToHex(k)] = true)
 				this.handleEdit(selected, false)
@@ -89,14 +89,14 @@ class AccountIdsBondInner extends React.Component {
 		}
 	}
 	componentWillUnmount () {
-		if (this.props.bond && this.tieKey) {
-			this.props.bond.untie(this.tieKey);
+		if (this.props.spook && this.tieKey) {
+			this.props.spook.untie(this.tieKey);
 		}
 	}
 	handleEdit (selected, trigger = true) {
 		this.setState({selected})
 		if (trigger) {
-			this.props.bond.trigger(Object.keys(selected).map(hex => new AccountId(hexToBytes(hex))))
+			this.props.spook.trigger(Object.keys(selected).map(hex => new AccountId(hexToBytes(hex))))
 		}
 	}
 	toggle (hexkey) {
@@ -163,7 +163,7 @@ class TransactionsSegment extends React.Component {
 	constructor () {
 		super()
 
-		this.txhex = new Bond
+		this.txhex = new Spook
 	}
 
 	render () {
@@ -178,7 +178,7 @@ class TransactionsSegment extends React.Component {
 			<div style={{paddingBottom: '1em'}}>
 				<div style={{paddingBottom: '1em'}}>
 					<div style={{fontSize: 'small'}}>Custom Transaction Data</div>
-					<InputBond bond={this.txhex}/>
+					<InputSpook spook={this.txhex}/>
 				</div>
 				<TransactButton tx={this.txhex.map(hexToBytes)} content="Publish" icon="sign in" />
 			</div>
@@ -190,20 +190,20 @@ class StakingSegment extends React.Component {
 	constructor () {
 		super()
 		this.state = {activeIndex: 0}
-		this.amount = new Bond
-		this.lockAmount = new Bond
-		this.staking = new Bond
-		this.stash = new Bond
-		this.controller = new Bond
-		this.nominations = new Bond
-		this.sessionKey = new Bond
+		this.amount = new Spook
+		this.lockAmount = new Spook
+		this.staking = new Spook
+		this.stash = new Spook
+		this.controller = new Spook
+		this.nominations = new Spook
+		this.sessionKey = new Spook
 
 		window.stakingSegment = this
 	}
 
 	render () {
-		if (!this.bonding) {
-			this.bonding = runtime.staking.bonding(this.staking)
+		if (!this.spooking) {
+			this.spooking = runtime.staking.spooking(this.staking)
 		}
 		let activeIndex = this.state.activeIndex || 0
 		return <Segment style={{margin: '1em'}} padded>
@@ -227,7 +227,7 @@ class StakingSegment extends React.Component {
 						{runtime.balances != null &&
 						<div style={{paddingBottom: '1em'}}>
 							<div style={{fontSize: 'small'}}>stash (<b>lockup</b>) account</div>
-							<SignerBond bond={this.stash}/>
+							<SignerSpook spook={this.stash}/>
 							<If condition={this.stash.ready()} then={<span>
 								<Label>Balance available
 									<Label.Detail>
@@ -240,7 +240,7 @@ class StakingSegment extends React.Component {
 						}
 						<div style={{paddingBottom: '1em'}}>
 							<div style={{fontSize: 'small'}}>controller account</div>
-							<SignerBond bond={this.controller}/>
+							<SignerSpook spook={this.controller}/>
 							<If condition={this.controller.ready()} then={<span>
 								<StakingStatusLabel id={this.controller}/>
 							</span>}/>
@@ -248,7 +248,7 @@ class StakingSegment extends React.Component {
 						<div style={{paddingBottom: '1em'}}>
 							<div style={{paddingBottom: '1em'}}>
 								<div style={{fontSize: 'small'}}>lock amount</div>
-								<BalanceBond bond={this.lockAmount}/>
+								<BalanceSpook spook={this.lockAmount}/>
 							</div>
 						</div>
 						{runtime.indices != null &&
@@ -258,7 +258,7 @@ class StakingSegment extends React.Component {
 								icon="sign in"
 								tx={{
 									sender: runtime.indices.tryIndex(this.stash),
-									call: calls.staking.bond(runtime.indices.tryIndex(this.controller), this.lockAmount, "Staked"),
+									call: calls.staking.spook(runtime.indices.tryIndex(this.controller), this.lockAmount, "Staked"),
 								}}
 								negative
 							/>
@@ -274,21 +274,21 @@ class StakingSegment extends React.Component {
 						{runtime.balances != null &&
 						<div style={{paddingBottom: '1em'}}>
 							<div style={{fontSize: 'small'}}>account</div>
-							<SignerBond bond={this.staking}/>
-							<If condition={this.bonding.ledger.stash.ready()} then={<span>
+							<SignerSpook spook={this.staking}/>
+							<If condition={this.spooking.ledger.stash.ready()} then={<span>
 								<Label>Total balance
 									<Label.Detail>
-										<Pretty value={runtime.balances.balance(this.bonding.ledger.stash)}/>
+										<Pretty value={runtime.balances.balance(this.spooking.ledger.stash)}/>
 									</Label.Detail>
 								</Label>
-								<StakingStatusLabel id={this.bonding.ledger.stash}/>
+								<StakingStatusLabel id={this.spooking.ledger.stash}/>
 							</span>}/>
 						</div>
 						}
 						<div style={{paddingBottom: '1em'}}>
 							<div style={{paddingBottom: '1em'}}>
 								<div style={{fontSize: 'small'}}>amount</div>
-								<BalanceBond bond={this.amount}/>
+								<BalanceSpook spook={this.amount}/>
 							</div>
 						</div>
 						{runtime.indices != null &&
@@ -297,24 +297,24 @@ class StakingSegment extends React.Component {
 								content="Deposit"
 								icon="sign in"
 								tx={{
-									sender: runtime.indices.tryIndex(this.bonding.ledger.stash),
-									call: calls.staking.bondExtra(this.amount),
+									sender: runtime.indices.tryIndex(this.spooking.ledger.stash),
+									call: calls.staking.spookExtra(this.amount),
 								}}
 							/>
 							<TransactButton
 								content="Withdraw"
 								icon="sign in"
 								tx={{
-									sender: runtime.indices.tryIndex(this.bonding.ledger.stash),
-									call: calls.staking.unbond(this.amount),
+									sender: runtime.indices.tryIndex(this.spooking.ledger.stash),
+									call: calls.staking.unspook(this.amount),
 								}}
 							/>
 							<TransactButton
 								content="Finalise"
 								icon="sign in"
 								tx={{
-									sender: runtime.indices.tryIndex(this.bonding.ledger.stash),
-									call: calls.staking.withdrawUnbonded(),
+									sender: runtime.indices.tryIndex(this.spooking.ledger.stash),
+									call: calls.staking.withdrawUnspooked(),
 								}}
 							/>
 						</div>
@@ -328,9 +328,9 @@ class StakingSegment extends React.Component {
 					<Accordion.Content active={activeIndex === 2}>
 					<div style={{paddingBottom: '1em'}}>
 						<div style={{fontSize: 'small'}}>account</div>
-							<SignerBond bond={this.staking}/>
-							<If condition={this.bonding.ledger.stash.ready()} then={<span>
-								<StakingStatusLabel id={this.bonding.ledger.stash}/>
+							<SignerSpook spook={this.staking}/>
+							<If condition={this.spooking.ledger.stash.ready()} then={<span>
+								<StakingStatusLabel id={this.spooking.ledger.stash}/>
 							</span>}/>
 						</div>
 						<div style={{paddingBottom: '1em'}}>
@@ -338,7 +338,7 @@ class StakingSegment extends React.Component {
 								content="Validate"
 								icon="sign out"
 								tx={{
-									sender: runtime.indices.tryIndex(this.bonding.controller),
+									sender: runtime.indices.tryIndex(this.spooking.controller),
 									call: calls.staking.validate({ unstakeThreshold: 4, validatorPayment: 0 })
 								}}
 							/>
@@ -346,7 +346,7 @@ class StakingSegment extends React.Component {
 								content="Stop"
 								icon="stop"
 								tx={{
-									sender: runtime.indices.tryIndex(this.bonding.controller),
+									sender: runtime.indices.tryIndex(this.spooking.controller),
 									call: calls.staking.chill()
 								}}
 								negative
@@ -361,14 +361,14 @@ class StakingSegment extends React.Component {
 					<Accordion.Content active={activeIndex === 3}>
 						<div style={{paddingBottom: '1em'}}>
 							<div style={{fontSize: 'small'}}>account</div>
-							<SignerBond bond={this.staking}/>
-							<If condition={this.bonding.ledger.stash.ready()} then={<span>
-								<StakingStatusLabel id={this.bonding.ledger.stash}/>
+							<SignerSpook spook={this.staking}/>
+							<If condition={this.spooking.ledger.stash.ready()} then={<span>
+								<StakingStatusLabel id={this.spooking.ledger.stash}/>
 							</span>}/>
 						</div>
 						<div style={{paddingBottom: '1em'}}>
 							<div style={{fontSize: 'small'}}>potential validators</div>
-							<AccountIdsBond accounts={runtime.staking.validators.all.mapEach(x => x.key)} bond={this.nominations}/>
+							<AccountIdsSpook accounts={runtime.staking.validators.all.mapEach(x => x.key)} spook={this.nominations}/>
 						</div>
 						{runtime.indices != null &&
 						<div style={{paddingBottom: '1em'}}>
@@ -376,7 +376,7 @@ class StakingSegment extends React.Component {
 								content="Nominate"
 								icon="hand point right"
 								tx={{
-									sender: runtime.indices.tryIndex(this.bonding.controller),
+									sender: runtime.indices.tryIndex(this.spooking.controller),
 									call: calls.staking.nominate(this.nominations.mapEach(x => runtime.indices.tryIndex(x)))
 								}}
 							/>
@@ -384,7 +384,7 @@ class StakingSegment extends React.Component {
 								content="Stop"
 								icon="stop"
 								tx={{
-									sender: runtime.indices.tryIndex(this.bonding.controller),
+									sender: runtime.indices.tryIndex(this.spooking.controller),
 									call: calls.staking.chill()
 								}}
 								negative
@@ -400,14 +400,14 @@ class StakingSegment extends React.Component {
 					<Accordion.Content active={activeIndex == 4}>
 						<div style={{paddingBottom: '1em'}}>
 							<div style={{fontSize: 'small'}}>account</div>
-							<SignerBond bond={this.staking}/>
-							<If condition={this.bonding.ledger.stash.ready()} then={<span>
-								<StakingStatusLabel id={this.bonding.ledger.stash}/>
+							<SignerSpook spook={this.staking}/>
+							<If condition={this.spooking.ledger.stash.ready()} then={<span>
+								<StakingStatusLabel id={this.spooking.ledger.stash}/>
 							</span>}/>
 						</div>
 						<div style={{paddingBottom: '1em'}}>
 							<div style={{fontSize: 'small'}}>session key</div>
-							<SignerBond bond={this.sessionKey}/>
+							<SignerSpook spook={this.sessionKey}/>
 						</div>
 						{runtime.indices != null &&
 						<div style={{paddingBottom: '1em'}}>
@@ -415,7 +415,7 @@ class StakingSegment extends React.Component {
 								content="Set Key"
 								icon="sign in"
 								tx={{
-									sender: runtime.indices.tryIndex(this.bonding.controller),
+									sender: runtime.indices.tryIndex(this.spooking.controller),
 									call: calls.session.setKey(this.sessionKey),
 								}}
 								negative
@@ -432,14 +432,14 @@ class StakingSegment extends React.Component {
 class UpgradeSegment extends React.Component {
 	constructor () {
 		super()
-		this.conditionBond = runtime.metadata.map(m =>
+		this.conditionSpook = runtime.metadata.map(m =>
 			m.modules && m.modules.some(o => o.name === 'sudo')
 			|| m.modules.some(o => o.name === 'upgrade_key')
 		)
-		this.runtime = new Bond
+		this.runtime = new Spook
 	}
 	render() {
-		return <If condition={this.conditionBond} then={
+		return <If condition={this.conditionSpook} then={
 			<Segment style={{margin: '1em'}} padded>
 				<Header as='h2'>
 					<Icon name='search' />
@@ -449,7 +449,7 @@ class UpgradeSegment extends React.Component {
 					</Header.Content>
 				</Header>
 				<div style={{paddingBottom: '1em'}}></div>
-				<FileUploadBond bond={this.runtime} content='Select Runtime' />
+				<FileUploadSpook spook={this.runtime} content='Select Runtime' />
 				<TransactButton
 					content="Upgrade"
 					icon='warning'
@@ -515,9 +515,9 @@ class Heading extends React.Component {
 class ParachainSegment extends React.Component {
 	constructor () {
 		super()
-		this.parachainBinary = new Bond;
-		this.parachainId = new Bond;
-		this.parachainHead = new Bond;
+		this.parachainBinary = new Spook;
+		this.parachainId = new Spook;
+		this.parachainHead = new Spook;
 	}
 	render () {
 		return <If condition={runtime.metadata.map(m => m.modules && m.modules.some(o => o.name === 'sudo') && m.modules.some(o => o.name === 'parachains'))} then={
@@ -530,9 +530,9 @@ class ParachainSegment extends React.Component {
 					</Header.Content>
 				</Header>
 				<div style={{paddingBottom: '1em'}}></div>
-				<InputBond bond={this.parachainId} placeholder='Enter a Parachain ID'/>
-				<InputBond bond={this.parachainHead} placeholder='Initial head data for the Parachain'/>
-				<FileUploadBond bond={this.parachainBinary} content='Select Parachain Binary' />
+				<InputSpook spook={this.parachainId} placeholder='Enter a Parachain ID'/>
+				<InputSpook spook={this.parachainHead} placeholder='Initial head data for the Parachain'/>
+				<FileUploadSpook spook={this.parachainBinary} content='Select Parachain Binary' />
 				<TransactButton
 					content="Register"
 					icon='warning'
@@ -549,8 +549,8 @@ class ParachainSegment extends React.Component {
 class PokeSegment extends React.Component {
 	constructor () {
 		super()
-		this.storageKey = new Bond;
-		this.storageValue = new Bond;
+		this.storageKey = new Spook;
+		this.storageValue = new Spook;
 	}
 	render () {
 		return <If condition={runtime.metadata.map(m => m.modules && m.modules.some(o => o.name === 'sudo'))} then={
@@ -563,8 +563,8 @@ class PokeSegment extends React.Component {
 					</Header.Content>
 				</Header>
 				<div style={{paddingBottom: '1em'}}></div>
-				<InputBond bond={this.storageKey} placeholder='Storage key e.g. 0xf00baa' />
-				<InputBond bond={this.storageValue} placeholder='Storage value e.g. 0xf00baa' />
+				<InputSpook spook={this.storageKey} placeholder='Storage key e.g. 0xf00baa' />
+				<InputSpook spook={this.storageValue} placeholder='Storage value e.g. 0xf00baa' />
 				<TransactButton
 					content="Poke"
 					icon='warning'
@@ -582,9 +582,9 @@ class FundingSegment extends React.Component {
 	constructor () {
 		super()
 
-		this.source = new Bond;
-		this.amount = new Bond;
-		this.destination = new Bond;
+		this.source = new Spook;
+		this.amount = new Spook;
+		this.destination = new Spook;
 	}
 	render () {
 		return <Segment style={{margin: '1em'}} padded>
@@ -597,7 +597,7 @@ class FundingSegment extends React.Component {
 			</Header>
 			<div style={{paddingBottom: '1em'}}>
 				<div style={{fontSize: 'small'}}>from</div>
-				<SignerBond bond={this.source}/>
+				<SignerSpook spook={this.source}/>
 				<If condition={this.source.ready()} then={<span>
 					{runtime.balances != null &&
 					<Label>Balance
@@ -616,7 +616,7 @@ class FundingSegment extends React.Component {
 			{runtime.balances != null &&
 			<div style={{paddingBottom: '1em'}}>
 				<div style={{fontSize: 'small'}}>to</div>
-				<AccountIdBond bond={this.destination}/>
+				<AccountIdSpook spook={this.destination}/>
 				<If condition={this.destination.ready()} then={
 					<Label>Balance
 						<Label.Detail>
@@ -628,7 +628,7 @@ class FundingSegment extends React.Component {
 			}
 			<div style={{paddingBottom: '1em'}}>
 				<div style={{fontSize: 'small'}}>amount</div>
-				<BalanceBond bond={this.amount}/>
+				<BalanceSpook spook={this.amount}/>
 			</div>
 			{(runtime.balances != null || runtime.indices != null) &&
 			<TransactButton
@@ -649,8 +649,8 @@ class FundingSegment extends React.Component {
 class AddressBookSegment extends React.Component {
 	constructor () {
 		super()
-		this.nick = new Bond
-		this.lookup = new Bond
+		this.nick = new Spook
+		this.lookup = new Spook
 	}
 	render () {
 		return <Segment style={{margin: '1em'}} padded>
@@ -663,7 +663,7 @@ class AddressBookSegment extends React.Component {
 			</Header>
 			<div style={{paddingBottom: '1em'}}>
 				<div style={{fontSize: 'small'}}>lookup account</div>
-				<AccountIdBond bond={this.lookup}/>
+				<AccountIdSpook spook={this.lookup}/>
 				<If condition={this.lookup.ready()} then={<div>
 					{runtime.balances != null &&
 					<Label>Balance
@@ -696,11 +696,11 @@ class AddressBookSegment extends React.Component {
 			</div>
 			<div style={{paddingBottom: '1em'}}>
 				<div style={{fontSize: 'small'}}>name</div>
-				<InputBond
-					bond={this.nick}
+				<InputSpook
+					spook={this.nick}
 					placeholder='A name for this address'
 					validator={n => n ? addressBook().map(ss => ss.byName[n] ? null : n) : null}
-					action={<TransformBondButton
+					action={<TransformSpookButton
 						content='Add'
 						transform={(name, account) => { addressBook().submit(account, name); return true }}
 						args={[this.nick, this.lookup]}
@@ -718,10 +718,10 @@ class AddressBookSegment extends React.Component {
 class WalletSegment extends React.Component {
 	constructor () {
 		super()
-		this.seed = new Bond;
+		this.seed = new Spook;
 		this.seedAccount = this.seed.map(s => s ? secretStore().accountFromPhrase(s) : undefined)
 		this.seedAccount.use()
-		this.name = new Bond;
+		this.name = new Spook;
 	}
 	render () {
 		return <Segment style={{margin: '1em'}}>
@@ -734,8 +734,8 @@ class WalletSegment extends React.Component {
 			</Header>
 			<div style={{paddingBottom: '1em'}}>
 				<div style={{fontSize: 'small'}}>seed</div>
-				<InputBond
-					bond={this.seed}
+				<InputSpook
+					spook={this.seed}
 					reversible
 					placeholder='Some seed for this key'
 					validator={n => n || null}
@@ -746,11 +746,11 @@ class WalletSegment extends React.Component {
 			</div>
 			<div style={{paddingBottom: '1em'}}>
 				<div style={{fontSize: 'small'}}>name</div>
-				<InputBond
-					bond={this.name}
+				<InputSpook
+					spook={this.name}
 					placeholder='A name for this key'
 					validator={n => n ? secretStore().map(ss => ss.byName[n] ? null : n) : null}
-					action={<TransformBondButton
+					action={<TransformSpookButton
 						content='Create'
 						transform={(name, seed) => secretStore().submit(seed, name)}
 						args={[this.name, this.seed]}
@@ -768,7 +768,7 @@ class WalletSegment extends React.Component {
 class ValidationSegment extends React.Component {
 	constructor () {
 		super()
-		this.validatorCount = new Bond
+		this.validatorCount = new Spook
 		this.condition = runtime.metadata.map(m => m.modules && m.modules.some(o => o.name === 'sudo'))
 	}
 	render () {
@@ -782,7 +782,7 @@ class ValidationSegment extends React.Component {
 					</Header.Content>
 				</Header>
 				<div style={{paddingBottom: '1em'}}></div>
-				<InputBond bond={this.validatorCount} placeholder='Enter a new number of validators'/>
+				<InputSpook spook={this.validatorCount} placeholder='Enter a new number of validators'/>
 				<TransactButton
 					content="Set"
 					icon='warning'

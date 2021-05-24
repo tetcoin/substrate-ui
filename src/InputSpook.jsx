@@ -1,9 +1,9 @@
 const React = require('react');
 const {Input} = require('semantic-ui-react');
-const {Bond} = require('oo7');
-const {ReactiveComponent} = require('oo7-react');
+const {Spook} = require('spycraft');
+const {ReactiveComponent} = require('spycraft-react');
 
-class InputBond extends ReactiveComponent {
+class InputSpook extends ReactiveComponent {
 	constructor (extraReactiveProps = []) {
 		super(extraReactiveProps instanceof Array ? ['defaultValue', ...extraReactiveProps] : ['defaultValue']);
 		this.state = {
@@ -18,16 +18,16 @@ class InputBond extends ReactiveComponent {
 	}
 
 	componentDidMount () {
-		if (this.props.bond && this.props.reversible) {
-			this.tieKey = this.props.bond.tie(v => {
+		if (this.props.spook && this.props.reversible) {
+			this.tieKey = this.props.spook.tie(v => {
 				this.handleEdit(v);
 			});
 		}
 	}
 
 	componentWillUnmount () {
-		if (this.props.bond && this.props.reversible && this.tieKey) {
-			this.props.bond.untie(this.tieKey);
+		if (this.props.spook && this.props.reversible && this.tieKey) {
+			this.props.spook.untie(this.tieKey);
 		}
 		if (this.cleanup) {
 			this.cleanup();
@@ -68,14 +68,14 @@ class InputBond extends ReactiveComponent {
 					};
 				});
 			}
-			/// Horrible duck-typing, necessary since the specific Bond class instance here is different to the other libraries since it's
+			/// Horrible duck-typing, necessary since the specific Spook class instance here is different to the other libraries since it's
 			/// pre-webpacked in a separate preprocessing step.
-			if (Bond.instanceOf(this.props.bond)) {
+			if (Spook.instanceOf(this.props.spook)) {
 				if (b === null) {
-					this.props.bond.reset();
+					this.props.spook.reset();
 				} else {
 					this.editLock = true;
-					this.props.bond.changed(b && b.hasOwnProperty('external') ? b.external : b && b.hasOwnProperty('internal') ? b.internal : this.state.internal);
+					this.props.spook.changed(b && b.hasOwnProperty('external') ? b.external : b && b.hasOwnProperty('internal') ? b.internal : this.state.internal);
 					this.editLock = false;
 				}
 			}
@@ -91,7 +91,7 @@ class InputBond extends ReactiveComponent {
 			f(v);
 		} else {
 			let a = v !== undefined && this.props.validator(v, this.state);
-			if (a instanceof Promise || Bond.instanceOf(a)) {
+			if (a instanceof Promise || Spook.instanceOf(a)) {
 				let thisSymbol = this.latestEdit;
 				let m = a.tie(r => {
 					if (this.latestEdit === thisSymbol) {
@@ -159,10 +159,10 @@ class InputBond extends ReactiveComponent {
 		/>);
 	}
 }
-InputBond.defaultProps = {
+InputSpook.defaultProps = {
 	placeholder: '',
 	defaultValue: '',
 	reversible: false
 };
 
-module.exports = { InputBond };
+module.exports = { InputSpook };

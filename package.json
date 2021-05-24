@@ -1,7 +1,7 @@
 {
-  "name": "substrate-ui",
+  "name": "tetcore-ui",
   "version": "1.0.0",
-  "description": "Gav's Substrate UI",
+  "description": "Gav's Tetcore UI",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -18,8 +18,8 @@
     ]
   },
   "keywords": [
-    "polkadot",
-    "substrate",
+    "tetcoin",
+    "tetcore",
     "ui"
   ],
   "author": "Gav Wood",
@@ -37,18 +37,18 @@
     "webpack-cli": "^3.1.1"
   },
   "dependencies": {
-    "@polkadot/wasm-crypto": "^0.3.1",
+    "@tetcoin/wasm-crypto": "^0.3.1",
     "bip39": "^2.5.0",
     "blakejs": "^1.1.0",
     "bs58": "^4.0.1",
     "css-loader": "^0.28.11",
     "file-loader": "^1.1.11",
     "jdenticon": "^2.1.1",
-    "oo7": "^0.7.3",
-    "oo7-react": "^0.8.3",
-    "oo7-substrate": "^0.8.0",
+    "spycraft": "^0.7.3",
+    "spycraft-react": "^0.8.3",
+    "spycraft-tetcore": "^0.8.0",
     "pbkdf2": "^3.0.17",
-    "polkadot-identicon": "^1.1.45",
+    "tetcoin-identicon": "^1.1.45",
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
     "semantic-ui-css": "^2.3.3",

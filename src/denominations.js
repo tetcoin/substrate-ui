@@ -1,4 +1,4 @@
-const { setNetworkDefault, denominationInfo: { init } } = require('oo7-substrate')
+const { setNetworkDefault, denominationInfo: { init } } = require('spycraft-tetcore')
 
 setNetworkDefault(42)
 
@@ -32,7 +32,7 @@ const denominationInfoELM = {
 }
 
 setTimeout(() => {
-	const { system } = require('oo7-substrate')
+	const { system } = require('spycraft-tetcore')
 	system.chain.tie(name => {
 		switch (name) {
 			case 'Alexander': { init(denominationInfoDOT); break; }

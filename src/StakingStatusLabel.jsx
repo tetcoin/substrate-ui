@@ -1,8 +1,8 @@
 const React = require('react');
 const { Icon, Label } = require('semantic-ui-react');
 
-import { ReactiveComponent } from 'oo7-react';
-import { runtime } from 'oo7-substrate';
+import { ReactiveComponent } from 'spycraft-react';
+import { runtime } from 'spycraft-tetcore';
 import { Pretty } from './Pretty';
 
 export class StakingStatusLabel extends ReactiveComponent {
@@ -24,9 +24,9 @@ export class StakingStatusLabel extends ReactiveComponent {
 			: 'stop'
 			
 		let detail = (<Label.Detail>
-			{<span><Pretty value={info.ledger.total}/> bonded</span>}
+			{<span><Pretty value={info.ledger.total}/> spooked</span>}
 			{info.ledger.unlocking.length > 0
-				? <span style={{marginLeft: '1em'}}> of which <Pretty value={info.ledger.unlocking.map(n => n.value).reduce((p, n) => p.add(n))}/> unbonding</span>
+				? <span style={{marginLeft: '1em'}}> of which <Pretty value={info.ledger.unlocking.map(n => n.value).reduce((p, n) => p.add(n))}/> unspooking</span>
 				: ''
 			}
 		</Label.Detail>)

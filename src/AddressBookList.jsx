@@ -1,7 +1,7 @@
 import React from 'react';
 import {List, Button} from 'semantic-ui-react';
-import {ReactiveComponent} from 'oo7-react';
-import {runtime, addressBook} from 'oo7-substrate';
+import {ReactiveComponent} from 'spycraft-react';
+import {runtime, addressBook} from 'spycraft-tetcore';
 import {Identicon} from './Identicon';
 
 export class AddressBookList extends ReactiveComponent {

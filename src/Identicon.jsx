@@ -1,8 +1,8 @@
-const PolkadotIdenticon = require('polkadot-identicon').default;
+const TetcoinIdenticon = require('tetcoin-identicon').default;
 const jdenticon = require('jdenticon');
-const {ReactiveComponent} = require('oo7-react');
+const {ReactiveComponent} = require('spycraft-react');
 const React = require('react');
-const {bytesToHex} = require('oo7-substrate');
+const {bytesToHex} = require('spycraft-tetcore');
 
 const copyToClipboard = str => {
 	const el = document.createElement('textarea');
@@ -45,17 +45,17 @@ function Identicon(...args) {
 
 function setIdenticonType(type) {
     switch (type) {
-        case 'polkadot': { s_identicon = PolkadotIdenticon; break; }
+        case 'tetcoin': { s_identicon = TetcoinIdenticon; break; }
         default: { s_identicon = Jdenticon; break; }
     }
 }
 
 setTimeout(() => {
-	const { system } = require('oo7-substrate')
+	const { system } = require('spycraft-tetcore')
 	system.chain.tie(name => {
 		switch (name) {
-			case 'Alexander': { setIdenticonType('polkadot'); break; }
-			default: { setIdenticonType('substrate'); break; }
+			case 'Alexander': { setIdenticonType('tetcoin'); break; }
+			default: { setIdenticonType('tetcore'); break; }
 		}
 	}),
 	0
